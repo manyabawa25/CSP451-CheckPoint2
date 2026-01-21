@@ -1,24 +1,59 @@
-/**
- * Starter login behavior (minimal).
- * Feature branch: feature/user-authentication should add:
- * - better validation (inline errors)
- * - UI feedback states (loading, success, failure)
- * - optional: call an API endpoint (e.g., POST /api/auth/login)
+/* public/login.js
+ * Enhanced login behavior for feature/user-authentication branch
+ * - calls POST /api/login
+ * - shows user-friendly feedback
  */
+
 const form = document.getElementById("loginForm");
-const message = document.getElementById("message");
+const statusEl = document.getElementById("status");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+function setStatus(message, type = "info") {
+  if (!statusEl) return;
+  statusEl.textContent = message;
+  statusEl.className = `status status--${type}`;
+}
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+async function postJson(url, body) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 
-  // Minimal checks (students can improve)
-  if (!email || password.length < 6) {
-    message.textContent = "Please enter a valid email and a password (min 6 characters).";
-    return;
-  }
+  const data = await res.json().catch(() => null);
+  return { ok: res.ok, status: res.status, data };
+}
 
-  message.textContent = "Login submitted (stub). Implement authentication in your feature branch.";
-});
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = form.email?.value || "";
+    const password = form.password?.value || "";
+
+    const btn = form.querySelector("button[type='submit']");
+    if (btn) btn.disabled = true;
+
+    setStatus("Signing in...", "info");
+
+    try {
+      const result = await postJson("/api/login", { email, password });
+
+      if (result.ok) {
+        setStatus("Login validation passed ✅", "success");
+      } else {
+        const errs =
+          result.data?.errors?.[0]?.details ||
+          result.data?.errors ||
+          ["Login failed."];
+
+        setStatus(errs.join(" "), "error");
+      }
+    } catch (err) {
+      setStatus("Network error. Try again.", "error");
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  });
+}
+<p id="status" class="status"></p>
