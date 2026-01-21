@@ -15,6 +15,17 @@ npm run dev
 
 Open: http://localhost:3000
 
+## Login API + UI (auth branch)
+
+- **POST** `/api/login`
+  - Validates required fields, email format, and password length
+  - Normalizes email to lowercase
+  - Returns standardized JSON responses with `success`, `data`, `errors`, and `meta.time`
+
+- **UI** `/login`
+  - Submits the form to `/api/login`
+  - Shows inline status messages for success and validation errors
+
 ## Structure
 
 - `src/app.js` — Express server entry
