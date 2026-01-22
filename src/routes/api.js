@@ -1,4 +1,5 @@
 const express = require("express");
+const { listUsers, createUser } = require("../controllers/usersController");
 
 const router = express.Router();
 
@@ -53,7 +54,6 @@ router.get("/health", (req, res) => {
 });
 
 // POST /api/login
-// Validates email + password and returns normalized response
 router.post("/login", (req, res) => {
   const email = normalizeEmail(req.body.email);
   const password = req.body.password;
@@ -71,5 +71,9 @@ router.post("/login", (req, res) => {
     meta: { time: new Date().toISOString() },
   });
 });
+
+// API endpoints branch adds REST-style routes
+router.get("/users", listUsers);
+router.post("/users", createUser);
 
 module.exports = { router };
