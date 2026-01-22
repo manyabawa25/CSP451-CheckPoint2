@@ -53,3 +53,9 @@ To intentionally create a merge conflict, edit the same lines in one of:
 npm test
 npm run lint
 ```
+## Database Connection
+
+This project includes a mock database connection module used for development
+and testing purposes.
+
+The database initializes automatically when the server starts.
