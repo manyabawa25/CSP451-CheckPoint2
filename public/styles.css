@@ -8,3 +8,19 @@ button { padding: 10px 14px; border: 0; border-radius: 10px; cursor: pointer; }
 .muted { opacity: .75; }
 a { color: #0b57d0; text-decoration: none; }
 a:hover { text-decoration: underline; }
+.status {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.status--success {
+  color: #0a7a2f;
+}
+
+.status--error {
+  color: #b00020;
+}
+
+.status--info {
+  color: #444;
+}
