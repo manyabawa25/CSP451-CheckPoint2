@@ -12,6 +12,7 @@ router.get("/health", (req, res) => {
   });
 });
 
+
 // API endpoints branch adds REST-style routes
 router.get("/users", listUsers);
 router.post("/users", createUser);
