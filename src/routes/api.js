@@ -35,15 +35,8 @@ function sendError(res, statusCode, message, details = []) {
   return res.status(statusCode).json({
     success: false,
     data: null,
-    errors: [
-      {
-        message,
-        details,
-      },
-    ],
-    meta: {
-      time: new Date().toISOString(),
-    },
+    errors: [{ message, details }],
+    meta: { time: new Date().toISOString() },
   });
 }
 
@@ -59,7 +52,8 @@ router.get("/health", (req, res) => {
   });
 });
 
-// Login validation
+// POST /api/login
+// Validates email + password and returns normalized response
 router.post("/login", (req, res) => {
   const email = normalizeEmail(req.body.email);
   const password = req.body.password;
